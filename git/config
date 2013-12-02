@@ -1,0 +1,89 @@
+[user]
+	email = gmiramir@gmail.com
+	name = miramir
+
+[credential]
+	helper = cache --timeout=3600
+
+[credential "https://github.com"]
+	username = miramir
+
+[credential "https://git.is74.ru"]
+	username = miramir
+
+[core]
+	pager = less -R
+	editor = vim
+	autocrlf = input
+
+
+[alias]
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+
+	# git up при надобности ныкает все ещё незакоммиченные изменения в stash, обновляет локальную ветку до свежайшей и восстанавливает
+	# локальные изменения назад. В том числе переносит ещё неотправленные локальные коммиты в самый конец,
+	# делая историю линейной как в Subversion, т.е. избегая лишних веток и merge-коммитов.
+	up = !(git add . && git stash && git pull --rebase >&2) | grep -v "No local changes to save" && git stash pop
+
+	# git in / git out — смотреть какие коммиты придут/уйдут перед выполнением pull/push
+	in = !git remote update -p; git log ..@{u}
+	out = log @{u}..
+
+	# git addremove - добавить в индекс новые файлы/изменения и удалить всё что удалилось
+	addremove = !git add . && git ls-files --deleted | xargs --no-run-if-empty git rm
+
+	# git unstage - убрать всё из индекса (чтобы например добавить/закоммитить сначала что-то другое)
+	unstage = reset HEAD --
+
+	# git backup - заархивировать весь локальный репозиторий перед экспериментированием
+	backup = !file=../`git describe`.tar && echo \"Creating `readlink -f $file`\" && tar cf $file .
+
+	# Просто удобные сокращения
+	st = status -sb
+	ci = commit -v
+	co = checkout
+	br = branch
+	bra = branch -a
+	chp = cherry-pick
+	pr = pull --rebase
+	bl = blame -b -w
+	cia = commit --amend
+	lg = log --pretty=format:'%h %ad | %s%d [%an]' --graph
+	who = shortlog -s --
+	type = cat-file -t
+	dump = cat-file -p
+
+
+
+[color]
+	diff = true
+	grep = true
+	status = true
+	ui = true
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = normal
+	frag = magenta bold
+	old = red bold
+	new = blue bold
+	whitespace = red reverse
+
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+
+
+[diff]
+	renames = copy
+
+[log]
+	decorate = full
+
+[push]
+	default = simple

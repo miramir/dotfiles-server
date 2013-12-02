@@ -1,0 +1,63 @@
+" Изменяем пути поиска фалов vim (папку ~/.vim переносим в ~/.config/vim)
+let g:user_config_dir = $HOME . '/.config/vim'
+let &runtimepath = printf('%s,%s/vimfiles,%s,%s/vimfiles/after,%s/after', g:user_config_dir, $VIM, $VIMRUNTIME, $VIM, g:user_config_dir)
+
+" --------------------------------------------------------------------
+" Натсраиваем vundle
+" --------------------------------------------------------------------
+set nocompatible               " be iMproved
+filetype off                   " required!
+let &rtp .= ','.g:user_config_dir.'/bundle/vundle/'
+call vundle#rc()
+let g:bundle_dir=g:user_config_dir.'/bundle'
+
+runtime bundles.vim
+
+filetype plugin indent on     " required!
+
+" --------------------------------------------------------------------
+" общие настроики
+" --------------------------------------------------------------------
+runtime options.vim
+
+" --------------------------------------------------------------------
+" настроика горячих клавишь
+" --------------------------------------------------------------------
+runtime keymap.vim
+
+" --------------------------------------------------------------------
+" Различные функции
+" --------------------------------------------------------------------
+runtime functions.vim
+
+
+" --------------------------------------------------------------------
+" Полезные автокоманды
+" --------------------------------------------------------------------
+" Включаем filetype плугин. Настройки, специфичные для определынных файлов мы разнесём по разным местам
+filetype plugin on
+if executable("enca")
+   autocmd BufReadPre * call SetEncoding(expand('<afile>'))
+endif
+
+" переопределять переменные для некоторых типов файлов
+autocmd! FileType text setlocal wrap
+
+au! FileType php set omnifunc=phpcomplete#CompletePHP
+
+:command! W set buftype=nowrite | silent execute ':%w !sudo tee %' | set buftype= | e! %
+
+" автоматически перечитывать конфигурацию VIM после сохранения
+autocmd! bufwritepost $MYVIMRC source $MYVIMRC
+
+" Remember last location in file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal g'\"" | endif
+endif
+
+" --------------------------------------------------------------------
+" Настроики плагинов
+" --------------------------------------------------------------------
+runtime pluginOptions.vim
+
