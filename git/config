@@ -48,7 +48,7 @@
 	pr = pull --rebase
 	bl = blame -b -w
 	cia = commit --amend
-	lg = log --pretty=format:'%h %ad | %s%d [%an]' --graph
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 	who = shortlog -s --
 	type = cat-file -t
 	dump = cat-file -p
