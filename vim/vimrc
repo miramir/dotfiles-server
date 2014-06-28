@@ -1,19 +1,12 @@
 " Изменяем пути поиска фалов vim (папку ~/.vim переносим в ~/.config/vim)
+set nocompatible               " be iMproved
 let g:user_config_dir = $HOME . '/.config/vim'
 let &runtimepath = printf('%s,%s/vimfiles,%s,%s/vimfiles/after,%s/after', g:user_config_dir, $VIM, $VIMRUNTIME, $VIM, g:user_config_dir)
 
 " --------------------------------------------------------------------
 " Натсраиваем vundle
 " --------------------------------------------------------------------
-set nocompatible               " be iMproved
-filetype off                   " required!
-let &rtp .= ','.g:user_config_dir.'/bundle/vundle/'
-call vundle#rc()
-let g:bundle_dir=g:user_config_dir.'/bundle'
-
-runtime bundles.vim
-
-filetype plugin indent on     " required!
+runtime vundle.vim
 
 " --------------------------------------------------------------------
 " общие настроики
