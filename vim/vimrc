@@ -1,42 +1,19 @@
-" Изменяем пути поиска фалов vim (папку ~/.vim переносим в ~/.config/vim)
-set nocompatible               " be iMproved
-let g:user_config_dir = $HOME . '/.config/vim'
-let &runtimepath = printf('%s,%s/vimfiles,%s,%s/vimfiles/after,%s/after', g:user_config_dir, $VIM, $VIMRUNTIME, $VIM, g:user_config_dir)
+" Environment
+set directory=$XDG_CACHE_HOME/vim,~/,/tmp
+set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
-" --------------------------------------------------------------------
-" Натсраиваем vundle
-" --------------------------------------------------------------------
-runtime vundle.vim
-
-" --------------------------------------------------------------------
-" общие настроики
-" --------------------------------------------------------------------
+runtime plugins.vim
 runtime options.vim
-
-" --------------------------------------------------------------------
-" настроика горячих клавишь
-" --------------------------------------------------------------------
+runtime plugin_options.vim
 runtime keymap.vim
 
-" --------------------------------------------------------------------
-" Различные функции
-" --------------------------------------------------------------------
-runtime functions.vim
-
-
-" --------------------------------------------------------------------
-" Полезные автокоманды
-" --------------------------------------------------------------------
-" Включаем filetype плугин. Настройки, специфичные для определынных файлов мы разнесём по разным местам
 filetype plugin on
-if executable("enca")
-   autocmd BufReadPre * call SetEncoding(expand('<afile>'))
-endif
 
 " переопределять переменные для некоторых типов файлов
 autocmd! FileType text setlocal wrap
-
-au! FileType php set omnifunc=phpcomplete#CompletePHP
 
 :command! W set buftype=nowrite | silent execute ':%w !sudo tee %' | set buftype= | e! %
 
@@ -48,9 +25,3 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal g'\"" | endif
 endif
-
-" --------------------------------------------------------------------
-" Настроики плагинов
-" --------------------------------------------------------------------
-runtime pluginOptions.vim
-

@@ -2,6 +2,12 @@ if [ -e "/etc/zsh/zprofile" ]; then
     source /etc/zsh/zprofile
 fi
 
+# XDG dirs first
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_BIN_HOME=$HOME/.local/bin
+export XDG_LIB_HOME=$HOME/.local/lib
+export XDG_CACHE_HOME=$HOME/.cache
 
 # Path to your zsh configuration.
 ZSH=$HOME/.config/zsh
@@ -26,7 +32,7 @@ ZSH_THEME="miramir"
 # COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.config/zsh/plugins/*)
-plugins=(git mercurial svn extract password vim grc openbox sublime phpstorm)
+plugins=(git extract vim)
 
 if [ -e "${HOME}/.zshrc.local" ]; then
     source ${HOME}/.zshrc.local
